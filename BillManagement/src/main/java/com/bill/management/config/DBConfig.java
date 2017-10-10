@@ -51,13 +51,14 @@ public class DBConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(Boolean.TRUE);
 		vendorAdapter.setShowSql(Boolean.parseBoolean(env.getProperty("datasource.show-sql")));
 		factory.setDataSource(dataSource());
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("com.bill.management.schema");
 		Properties jpaProperties = new Properties();
-		jpaProperties.put("javax.persistence.schema-generation.create-script-source", "ddl.sql");
+		jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.create-database-schemas", "false");
+	    jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.scripts.action", "create");
+	    jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target", "schema.sql");
 		factory.setJpaProperties(jpaProperties);
 		factory.afterPropertiesSet();
 		factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
@@ -79,7 +80,7 @@ public class DBConfig {
 		return dataSource;
 	}
 
-	@Bean
+	/*@Bean
 	public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
 		DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
 		dataSourceInitializer.setDataSource(dataSource);
@@ -88,5 +89,5 @@ public class DBConfig {
 		dataSourceInitializer.setDatabasePopulator(databasePopulator);
 		dataSourceInitializer.setEnabled(Boolean.parseBoolean(initDatabase));
 		return dataSourceInitializer;
-	}
+	}*/
 }

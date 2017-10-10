@@ -2,6 +2,7 @@ package com.bill.management.schema;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table
+@Entity
 public class Customer {
 
 	@Id
