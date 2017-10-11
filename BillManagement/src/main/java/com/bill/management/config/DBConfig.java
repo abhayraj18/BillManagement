@@ -13,11 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.hibernate5.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,6 +27,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "com.bill.management.repository")
 @PropertySource(value = { "classpath:application.properties" })
 public class DBConfig {
+	
+	private final String DIALECT = "org.hibernate.dialect.MySQL5InnoDBDialect";
+	private final String PACKAGES_TO_SCAN = "com.bill.management.schema";
+	
 	@Autowired
 	private Environment env;
 
@@ -51,18 +52,33 @@ public class DBConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		//vendorAdapter.setDatabasePlatform(DIALECT);
 		vendorAdapter.setShowSql(Boolean.parseBoolean(env.getProperty("datasource.show-sql")));
 		factory.setDataSource(dataSource());
 		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan("com.bill.management.schema");
-		Properties jpaProperties = new Properties();
-		jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.create-database-schemas", "false");
-	    jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.scripts.action", "create");
-	    jpaProperties.put("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target", "schema.sql");
-		factory.setJpaProperties(jpaProperties);
+		factory.setPackagesToScan(PACKAGES_TO_SCAN);
+		factory.setJpaProperties(getJPAProperties());
 		factory.afterPropertiesSet();
 		factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
 		return factory;
+	}
+	
+	private Properties getJPAProperties() {
+		Properties properties = new Properties();
+		/*
+		 * https://www.thoughts-on-java.org/standardized-schema-generation-data-loading-jpa-2-1/
+		 * https://docs.oracle.com/javaee/7/tutorial/persistence-intro005.htm
+		 * http://www.radcortez.com/jpa-database-schema-generation/
+		 */
+		properties.put("javax.persistence.schema-generation.scripts.action", "create");
+		properties.put("javax.persistence.schema-generation.scripts.create-target", "ddl.sql");
+		properties.put("javax.persistence.schema-generation.scripts.drop-target", "ddl-drop.sql");
+		//properties.put("javax.persistence.schema-generation.database.action", "create");
+		properties.put("hibernate.physical_naming_strategy", "com.bill.management.config.PhysicalNamingStrategyStandardImpl");
+		properties.put("hibernate.dialect", DIALECT);
+		properties.put("hibernate.delimiter", ";");
+		//properties.put("hibernate.format_sql", true);
+		return properties;
 	}
 	
 	@Bean

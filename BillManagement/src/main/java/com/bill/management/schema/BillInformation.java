@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -18,7 +17,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table
 @Entity
 public class BillInformation {
 
@@ -33,7 +31,7 @@ public class BillInformation {
 	private int amount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "customer_id")
+	@JoinColumn(name = "customerId")
 	private Customer customer;
 
 }
