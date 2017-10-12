@@ -18,11 +18,11 @@ import lombok.Setter;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String address;
-	private Long contact;
+	private String phoneNumber;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<BillInformation> billInformations;

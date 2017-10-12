@@ -14,10 +14,10 @@ import lombok.Setter;
 public class Distributor {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String address;
-	private Long contact;
+	private String phoneNumber;
 
 }

@@ -10,5 +10,5 @@ public class DistributorVO {
 	private Integer id;
 	private String name;
 	private String address;
-	private Long contact;
+	private String phoneNumber;
 }
