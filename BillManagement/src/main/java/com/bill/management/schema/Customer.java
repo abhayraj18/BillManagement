@@ -26,4 +26,5 @@ public class Customer {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
 	private List<BillInformation> billInformations;
+	
 }

@@ -20,11 +20,10 @@ public class HttpUtil {
 	public static void main(String[] args) throws IOException {
 		Response response = null;
 		try {
-			response = doGet( "http://localhost:8080/BillManagement-0.0.1-SNAPSHOT/distributor/get/1");
+			response = doGet("http://localhost:8090/BillManagement/distributor/get/1");
 			System.out.println(response.getResponse());
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
 		}
 		
 		DistributorVO distributorVO = new DistributorVO();
@@ -32,11 +31,10 @@ public class HttpUtil {
 		distributorVO.setPhoneNumber("97879879899");
 		distributorVO.setAddress("KR Puram");
 		try {
-			response = doPost("http://localhost:8080/BillManagement-0.0.1-SNAPSHOT/distributor/add", new Gson().toJson(distributorVO));
+			response = doPost("http://localhost:8090/BillManagement/distributor/add", new Gson().toJson(distributorVO));
 			System.out.println(response.getResponse());
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
 		}
 	}
 	

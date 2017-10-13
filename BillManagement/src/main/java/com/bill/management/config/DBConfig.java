@@ -70,13 +70,12 @@ public class DBConfig {
 		 * https://docs.oracle.com/javaee/7/tutorial/persistence-intro005.htm
 		 * http://www.radcortez.com/jpa-database-schema-generation/
 		 */
-		properties.put("javax.persistence.schema-generation.scripts.action", "create");
-		properties.put("javax.persistence.schema-generation.scripts.create-target", "ddl.sql");
-		properties.put("javax.persistence.schema-generation.scripts.drop-target", "ddl-drop.sql");
+		//properties.put("javax.persistence.schema-generation.scripts.action", "create");
+		//properties.put("javax.persistence.schema-generation.scripts.create-target", "ddl.sql");
+		//properties.put("javax.persistence.schema-generation.scripts.drop-target", "ddl-drop.sql");
 		//properties.put("javax.persistence.schema-generation.database.action", "create");
 		properties.put("hibernate.physical_naming_strategy", "com.bill.management.config.PhysicalNamingStrategyStandardImpl");
 		properties.put("hibernate.dialect", DIALECT);
-		properties.put("hibernate.delimiter", ";");
 		//properties.put("hibernate.format_sql", true);
 		return properties;
 	}

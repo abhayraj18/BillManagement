@@ -80,6 +80,11 @@
 		    <groupId>com.googlecode.json-simple</groupId>
 		    <artifactId>json-simple</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -94,16 +99,44 @@
             </plugin>
             
             <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <dependencies>
-                <dependency>
-                    <groupId>org.junit.platform</groupId>
-                    <artifactId>junit-platform-surefire-provider</artifactId>
-                    <version>1.0.0</version>
-                </dependency>
-            </dependencies>
-        </plugin>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <dependencies>
+	                <dependency>
+	                    <groupId>org.junit.platform</groupId>
+	                    <artifactId>junit-platform-surefire-provider</artifactId>
+	                    <version>1.0.0</version>
+	                </dependency>
+	            </dependencies>
+        	</plugin>
+        	<plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>exec-maven-plugin</artifactId>
+		        <configuration>
+		             <mainClass>com.bill.management.config.GenerateDDL</mainClass>
+		             <cleanupDaemonThreads>false</cleanupDaemonThreads>
+		        </configuration>
+	        </plugin>
+        	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<followSymLinks>false</followSymLinks>
+					<filesets>
+						<fileset>
+						<directory>C:\work\ThirdParty\apache-tomcat-9.0.1\webapps\BillManagement</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+		    </plugin>
+		    <plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+				  <outputDirectory>C:\work\ThirdParty\apache-tomcat-9.0.1\webapps</outputDirectory>
+				  <warSourceDirectory>WebContent</warSourceDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
+		<finalName>BillManagement</finalName>
 	</build>
 
 	<repositories>
